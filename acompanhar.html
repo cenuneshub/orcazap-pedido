@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0f766e">
+  <title>Acompanhar serviço | OrçaZap</title>
+  <style>
+    :root{font-family:Arial,Helvetica,sans-serif;color:#153431;background:#f4fbfc}*{box-sizing:border-box}body{margin:0;padding:16px}main{max-width:780px;margin:auto}header{padding:22px;border-radius:22px;background:linear-gradient(135deg,#0f766e,#9edfec);color:white}h1,h2,p{margin-top:0}.card,.proposal{background:white;border:1px solid #d7eaed;border-radius:18px;padding:16px;margin-top:12px}.accepted{border:2px solid #0f766e;background:#effcf8}.tag{display:inline-block;padding:5px 9px;border-radius:999px;background:#eaf7fb;font-size:12px;font-weight:800}.rating{font-weight:900;color:#0f766e}.stars{font-size:25px;letter-spacing:3px;color:#0f766e}button{width:100%;padding:13px;border:0;border-radius:12px;background:#0f766e;color:white;font:inherit;font-weight:900;cursor:pointer;margin-top:12px}button.secondary{background:white;color:#0f766e;border:1px solid #0f766e}button:disabled{opacity:.6;cursor:default}textarea{width:100%;min-height:90px;padding:12px;border:1px solid #b8d5d8;border-radius:10px;font:inherit}.small{font-size:13px;opacity:.8;line-height:1.45}#status{margin-top:12px;font-weight:800}.error{color:#a11f1f}.success{color:#0f766e}.review-box{background:#eaf7fb;border-radius:16px;padding:16px;margin-top:12px}
+  </style>
+</head>
+<body>
+<main>
+  <nav style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <a href="index.html" style="color:#0f766e;font-weight:800;text-decoration:none">Novo pedido</a>
+    <a href="meus-pedidos.html" style="color:#0f766e;font-weight:800;text-decoration:none">Meus pedidos</a>
+  </nav>
+  <header><h1>Acompanhar pedido</h1><p>Compare propostas, escolha o profissional e avalie após a conclusão.</p></header>
+  <section id="request" class="card">Carregando pedido...</section>
+  <div id="status"></div>
+  <section id="proposals"></section>
+  <section id="reviewArea"></section>
+  <button class="secondary" onclick="load()">Atualizar informações</button>
+</main>
+<script src="config.js"></script>
+<script>
+const cfg=window.ORCAZAP_BACKEND||{};const token=new URLSearchParams(location.search).get('t')||'';
+if(token){
+  const recent=JSON.parse(localStorage.getItem('orcazap_recent_requests_v1')||'[]');
+  if(!recent.some(item=>item&&item.token===token)){
+    recent.unshift({token,profession:'Pedido OrçaZap',city:'',serviceText:'',createdAt:new Date().toISOString()});
+    localStorage.setItem('orcazap_recent_requests_v1',JSON.stringify(recent.slice(0,20)));
+  }
+}const requestEl=document.getElementById('request');const proposalsEl=document.getElementById('proposals');const reviewArea=document.getElementById('reviewArea');const statusEl=document.getElementById('status');let selectedRating=0;
+function esc(v){return String(v||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;')}
+async function rpc(name,body){const base=String(cfg.supabaseUrl||'').replace(/\/+$/,'');const r=await fetch(`${base}/rest/v1/rpc/${name}`,{method:'POST',headers:{apikey:cfg.supabaseAnonKey,Authorization:`Bearer ${cfg.supabaseAnonKey}`,'Content-Type':'application/json'},body:JSON.stringify(body)});const raw=await r.text();let data=null;if(raw.trim()){try{data=JSON.parse(raw)}catch(_){data=raw}}if(!r.ok)throw new Error(data?.message||data?.hint||'Não foi possível concluir.');return data}
+async function acceptProposal(id){if(!confirm('Escolher este profissional? As outras propostas serão encerradas.'))return;statusEl.textContent='Confirmando escolha...';try{await rpc('orcazap_accept_marketplace_proposal',{p_access_token:token,p_interest_id:id});await load()}catch(e){statusEl.textContent=e.message;statusEl.className='error'}}
+function setRating(value){selectedRating=value;document.querySelectorAll('[data-star]').forEach(el=>{el.textContent=Number(el.dataset.star)<=value?'★':'☆'})}
+async function sendReview(){const comment=document.getElementById('reviewComment')?.value.trim()||'';if(selectedRating<1){alert('Escolha uma nota de 1 a 5.');return}statusEl.textContent='Enviando avaliação...';try{await rpc('orcazap_submit_verified_review',{p_access_token:token,p_rating:selectedRating,p_comment:comment});statusEl.textContent='Avaliação enviada com sucesso.';statusEl.className='success';await load()}catch(e){statusEl.textContent=e.message;statusEl.className='error'}}
+async function load(){if(!token){requestEl.textContent='Link incompleto.';return}statusEl.textContent='';statusEl.className='';proposalsEl.innerHTML='';reviewArea.innerHTML='';try{const data=await rpc('orcazap_get_client_marketplace_request',{p_access_token:token});const request=data.request||{};const proposals=Array.isArray(data.proposals)?data.proposals:[];const review=data.review||null;const serviceLabels={pending:'Aguardando escolha',in_progress:'Serviço em andamento',completed:'Serviço concluído — avalie o profissional',reviewed:'Serviço concluído e avaliado',cancelled:'Cancelado'};requestEl.innerHTML=`<span class="tag">${esc(serviceLabels[request.service_status]||request.status||'Pedido')}</span><h2>${esc(request.profession||'Serviço')}</h2><p>${esc(request.service_text)}</p><p class="small">${esc([request.city,request.desired_date].filter(Boolean).join(' • '))}</p>`;
+if(!proposals.length){proposalsEl.innerHTML='<div class="card"><h2>Aguardando profissionais</h2><p>Volte a esta página para acompanhar as propostas.</p></div>'}else{proposalsEl.innerHTML=proposals.map(p=>{const accepted=p.status==='accepted';const declined=p.status==='declined';const ratingCount=Number(p.rating_count||0);const rating=Number(p.rating_average||0);const contact=accepted&&p.professional_phone?`<p><strong>Contato liberado:</strong> ${esc(p.professional_phone)}</p>`:'';const profile=p.professional_slug?`<p><a href="perfil.html?p=${encodeURIComponent(p.professional_slug)}" target="_blank">Ver perfil profissional</a></p>`:'';return `<article class="proposal ${accepted?'accepted':''}"><span class="tag">${accepted?'Escolhido':declined?'Encerrado':'Proposta recebida'}</span><h2>${esc(p.professional_name)}</h2><p class="small">${esc([p.profession,p.city].filter(Boolean).join(' • '))}</p><p class="rating">${ratingCount?`★ ${rating.toFixed(1)} • ${ratingCount} avaliação(ões)`:'Profissional ainda sem avaliações verificadas'}</p><p>${esc(p.message||'Profissional interessado no serviço.')}</p>${p.estimated_price?`<p><strong>Estimativa:</strong> ${esc(p.estimated_price)}</p>`:''}${p.availability?`<p><strong>Disponibilidade:</strong> ${esc(p.availability)}</p>`:''}${profile}${contact}${!accepted&&!declined&&!request.selected_interest_id?`<button onclick="acceptProposal('${esc(p.interest_id)}')">Escolher este profissional</button>`:''}</article>`}).join('')}
+if(review){reviewArea.innerHTML=`<div class="review-box"><h2>Sua avaliação</h2><div class="stars">${'★'.repeat(Number(review.rating||0))}${'☆'.repeat(5-Number(review.rating||0))}</div><p>${esc(review.comment||'Avaliação enviada.')}</p></div>`}else if(request.service_status==='completed'){reviewArea.innerHTML=`<div class="review-box"><h2>Avalie o serviço</h2><p>Sua avaliação será publicada como verificada.</p><div class="stars">${[1,2,3,4,5].map(i=>`<button data-star="${i}" onclick="setRating(${i})" style="display:inline;width:auto;background:transparent;color:#0f766e;font-size:30px;padding:2px;margin:0">☆</button>`).join('')}</div><textarea id="reviewComment" maxlength="1000" placeholder="Conte como foi o atendimento (opcional)"></textarea><button onclick="sendReview()">Enviar avaliação</button></div>`}
+}catch(e){requestEl.textContent='Não foi possível abrir o pedido.';statusEl.textContent=e.message;statusEl.className='error'}}load();
+</script>
+</body>
+</html>
