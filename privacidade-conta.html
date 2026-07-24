@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0f766e">
-  <title>Acompanhar pedido | OrçaZap</title>
+  <title>Privacidade e dados | OrçaZap</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="manifest" href="app.webmanifest">
   <link rel="icon" href="icon-192.png">
@@ -13,34 +13,25 @@
 <body>
 <main>
   <nav>
-    <a href="index.html">Novo pedido</a>
     <a href="cliente.html">Minha conta</a>
+    <a href="index.html">Novo pedido</a>
     <a href="ajuda.html">Ajuda</a>
-    <a href="privacidade-conta.html">Meus dados</a>
   </nav>
 
   <header class="hero">
-    <h1>Acompanhar pedido</h1>
+    <h1>Privacidade e meus dados</h1>
     <p>
-      Compare propostas, converse sem expor seu telefone e escolha o profissional.
+      Consulte e acompanhe solicitações relacionadas à sua conta online.
     </p>
   </header>
 
-  <section id="accountArea" class="card"></section>
-  <section id="requestArea" class="card">Carregando pedido...</section>
   <div id="status" class="status" role="status" aria-live="polite"></div>
-  <section id="mediaArea"></section>
-  <section id="proposalsArea"></section>
-  <section id="chatArea"></section>
-  <section id="reviewArea"></section>
-
-  <button class="secondary" onclick="loadEverything()">
-    Atualizar informações
-  </button>
+  <section id="accountArea" class="card"></section>
+  <section id="content"></section>
 </main>
 
 <script src="config.js"></script>
 <script src="auth.js"></script>
-<script src="acompanhar.js"></script>
+<script src="privacidade-conta.js"></script>
 </body>
 </html>

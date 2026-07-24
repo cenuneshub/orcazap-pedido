@@ -5,44 +5,31 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0f766e">
   <title>Preciso de um profissional | OrçaZap</title>
-  <style>
-    :root { font-family: Arial, Helvetica, sans-serif; color:#153431; background:#f4fbfc; }
-    * { box-sizing:border-box; }
-    body { margin:0; padding:16px; }
-    main { max-width:760px; margin:auto; }
-    header { padding:24px; border-radius:24px; background:linear-gradient(135deg,#0f766e,#9edfec); color:white; box-shadow:0 10px 30px rgba(15,118,110,.15); }
-    header h1 { margin:0 0 8px; font-size:28px; }
-    header p { margin:0; line-height:1.45; }
-    form { margin-top:14px; padding:20px; border:1px solid #d7eaed; border-radius:20px; background:white; }
-    .grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-    label { display:block; margin:14px 0 6px; font-weight:800; }
-    input, textarea, select { width:100%; padding:13px; border:1px solid #b8d5d8; border-radius:11px; font:inherit; color:#153431; background:white; }
-    input:focus, textarea:focus, select:focus { outline:3px solid rgba(15,118,110,.14); border-color:#0f766e; }
-    textarea { min-height:110px; resize:vertical; }
-    button { width:100%; margin-top:18px; padding:15px; border:0; border-radius:13px; background:#0f766e; color:white; font-size:17px; font-weight:900; cursor:pointer; }
-    button:disabled { opacity:.62; cursor:wait; }
-    .small { font-size:13px; line-height:1.45; opacity:.82; }
-    .choice { margin-top:16px; padding:14px; border-radius:14px; background:#eaf7fb; border:1px solid #d8ecef; }
-    .check { display:flex; gap:10px; align-items:flex-start; font-weight:400; margin:0; }
-    .check input { width:auto; margin-top:4px; }
-    #status { min-height:24px; margin-top:12px; font-weight:800; }
-    .success { color:#0f766e; }
-    .error { color:#a11f1f; }
-    .hidden { display:none; }
-    @media (max-width:620px) { body{padding:10px}.grid{grid-template-columns:1fr;gap:0}header{padding:20px}form{padding:16px} }
-  </style>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="app.webmanifest">
+  <link rel="icon" href="icon-192.png">
+  <script src="pwa.js" defer></script>
 </head>
 <body>
 <main>
-  <nav style="display:flex;justify-content:flex-end;margin-bottom:10px">
-    <a href="meus-pedidos.html" style="color:#0f766e;font-weight:800;text-decoration:none">Meus pedidos</a>
+  <nav>
+    <a href="meus-pedidos.html">Meus pedidos</a>
+    <a href="cliente.html">Minha conta</a>
+    <a href="ajuda.html">Ajuda</a>
+    <a href="privacidade-conta.html">Meus dados</a>
+    <a href="ranking.html">Ranking</a>
   </nav>
-  <header>
+
+  <header class="hero">
     <h1 id="pageTitle">Preciso de um profissional</h1>
-    <p id="pageSubtitle">Descreva o serviço e receba propostas de profissionais compatíveis.</p>
+    <p id="pageSubtitle">
+      Descreva o serviço e receba propostas de profissionais compatíveis.
+    </p>
   </header>
 
-  <form id="orderForm">
+  <section id="accountArea" class="card"></section>
+
+  <form id="orderForm" class="card">
     <div class="grid">
       <div>
         <label for="clientName">Seu nome *</label>
@@ -54,16 +41,79 @@
       </div>
     </div>
 
-    <label id="professionLabel" for="profession">Qual profissional você precisa? *</label>
+    <label for="profession">Qual profissional você precisa? *</label>
     <select id="profession" required>
       <option value="">Selecione</option>
-      <option>Pedreiro</option>
       <option>Pintor</option>
+      <option>Pedreiro / Reformas</option>
       <option>Eletricista</option>
-      <option>Encanador</option>
+      <option>Encanador / Hidráulica</option>
+      <option>Gesseiro / Drywall</option>
+      <option>Marceneiro</option>
+      <option>Serralheiro</option>
+      <option>Vidraceiro</option>
+      <option>Técnico de ar-condicionado</option>
+      <option>Técnico de eletrodomésticos</option>
       <option>Técnico de T.I.</option>
-      <option>Confeitaria, doces e salgados</option>
+      <option>Assistência técnica de celular</option>
+      <option>Instalador de câmeras / segurança</option>
+      <option>Instalador de internet / redes</option>
+      <option>Montador de móveis</option>
+      <option>Chaveiro</option>
+      <option>Jardineiro</option>
+      <option>Piscineiro</option>
+      <option>Diarista / Faxina</option>
+      <option>Lavagem de estofados</option>
+      <option>Dedetizador</option>
+      <option>Mudanças / Frete</option>
+      <option>Mecânico</option>
+      <option>Funileiro / Pintura automotiva</option>
+      <option>Estética automotiva</option>
+      <option>Fotógrafo / Videomaker</option>
+      <option>Designer / Gráfica</option>
+      <option>Manicure / Beleza</option>
+      <option>Cabeleireiro / Barbeiro</option>
+      <option>Costureira / Ajustes</option>
+      <option>Personal trainer</option>
+      <option>Professor particular</option>
+      <option>Cuidador</option>
+      <option>Eventos / Decoração</option>
+      <option>Babá / Cuidador infantil</option>
+      <option>Pet sitter / Passeador de cães</option>
+      <option>Banho e tosa</option>
+      <option>Massagista / Terapias</option>
+      <option>Maquiadora</option>
+      <option>Depilação / Estética</option>
+      <option>Tatuador / Piercing</option>
+      <option>Aulas de música</option>
+      <option>Aulas de idiomas</option>
+      <option>Consultor de vendas</option>
+      <option>Social media</option>
+      <option>Redator / Copywriter</option>
+      <option>Desenvolvedor / Programador</option>
+      <option>Motoboy / Entregas</option>
+      <option>Guincho / Reboque</option>
+      <option>Soldador</option>
+      <option>Calheiro</option>
+      <option>Telhadista</option>
+      <option>Impermeabilização</option>
+      <option>Energia solar</option>
+      <option>Automação residencial</option>
+      <option>Tapeceiro</option>
+      <option>Sapateiro</option>
+      <option>Borracheiro</option>
+      <option>Lava-rápido</option>
+      <option>Buffet / Garçom / Churrasqueiro</option>
+      <option>DJ / Som / Iluminação</option>
+      <option>Locação de brinquedos</option>
+      <option>Recreação infantil</option>
+      <option>Personal organizer</option>
+      <option>Consultoria financeira</option>
+      <option>Serviços administrativos</option>
+      <option>Confeitaria / Doces e Salgados</option>
       <option>Produtora de casting</option>
+      <option>Vendedor autônomo de veículos</option>
+      <option>Corretor imobiliário autônomo</option>
       <option>Outros</option>
     </select>
 
@@ -71,16 +121,45 @@
     <input id="city" required autocomplete="address-level2" maxlength="120">
 
     <label for="address">Endereço ou bairro</label>
-    <input id="address" placeholder="O endereço completo só vai para o profissional escolhido" maxlength="220">
+    <input
+      id="address"
+      maxlength="220"
+      placeholder="O endereço completo só será liberado ao profissional escolhido"
+    >
 
     <label for="postalCode">CEP</label>
     <input id="postalCode" inputmode="numeric" autocomplete="postal-code" maxlength="20">
 
     <label for="serviceText">O que você precisa? *</label>
-    <textarea id="serviceText" required maxlength="3000" placeholder="Explique o serviço, problema, quantidade e medidas."></textarea>
+    <textarea
+      id="serviceText"
+      required
+      maxlength="3000"
+      placeholder="Explique o serviço, problema, quantidade e medidas."
+    ></textarea>
+
+
+    <section id="smartTriageArea" class="choice">
+      <div class="account-bar">
+        <div>
+          <strong>Triagem inteligente</strong>
+          <p class="small">
+            O OrçaZap sugere a categoria e as perguntas importantes sem enviar sua descrição para uma IA externa.
+          </p>
+        </div>
+        <button id="triageButton" type="button" class="secondary">
+          Analisar
+        </button>
+      </div>
+      <div id="triageResult" class="hidden"></div>
+    </section>
 
     <label for="measurements">Medidas ou quantidades</label>
-    <input id="measurements" maxlength="500" placeholder="Ex.: parede 4 x 3 m; 3 tomadas">
+    <input
+      id="measurements"
+      maxlength="500"
+      placeholder="Ex.: parede 4 x 3 m; 3 tomadas"
+    >
 
     <div class="grid">
       <div>
@@ -96,223 +175,55 @@
     <label for="notes">Observações</label>
     <textarea id="notes" maxlength="1500"></textarea>
 
+    <section id="photoArea" class="choice">
+      <strong>Fotos do serviço</strong>
+      <p class="small">
+        Até 5 imagens de 5 MB. As fotos ficam privadas e são liberadas
+        apenas para profissionais que participam do atendimento.
+      </p>
+      <input
+        id="photos"
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        multiple
+      >
+      <ul id="photoList" class="file-list"></ul>
+      <button id="photoLoginButton" type="button" class="secondary hidden">
+        Entrar por e-mail para adicionar fotos
+      </button>
+    </section>
+
     <div id="marketplaceChoice" class="choice hidden">
       <label class="check">
         <input id="marketplaceConsent" type="checkbox">
         <span>
           Também quero comparar propostas de outros profissionais compatíveis.
-          <br><span class="small">Seu telefone fica protegido até você escolher uma proposta.</span>
+          <br>
+          <span class="small">
+            O telefone permanece protegido até você escolher uma proposta.
+          </span>
         </span>
       </label>
     </div>
 
     <label class="check" style="margin-top:16px">
       <input id="privacyConsent" type="checkbox" required>
-      <span class="small">Autorizo o uso destes dados para receber atendimento e propostas relacionadas a este pedido.</span>
+      <span class="small">
+        Autorizo o uso destes dados para receber atendimento e propostas
+        relacionadas a este pedido. Li os
+        <a href="termos.html" target="_blank">termos</a> e a
+        <a href="privacidade.html" target="_blank">política de privacidade</a>.
+      </span>
     </label>
 
     <button id="submitButton" type="submit">Publicar pedido</button>
-    <div id="status" role="status" aria-live="polite"></div>
+    <div id="status" class="status" role="status" aria-live="polite"></div>
   </form>
 </main>
 
 <script src="config.js"></script>
-<script>
-  const cfg = window.ORCAZAP_BACKEND || {};
-  const params = new URLSearchParams(location.search);
-  const slug = params.get('p') || '';
-  const partnerCode = params.get('loja') || '';
-  const referralCode = params.get('ref') || '';
-  const directMode = Boolean(slug);
-  let professional = null;
-
-  const form = document.getElementById('orderForm');
-  const statusEl = document.getElementById('status');
-  const button = document.getElementById('submitButton');
-  const profession = document.getElementById('profession');
-  const marketplaceChoice = document.getElementById('marketplaceChoice');
-
-  function status(message, type='') {
-    statusEl.textContent = message;
-    statusEl.className = type;
-  }
-
-  async function rpc(name, body) {
-    const base = String(cfg.supabaseUrl || '').replace(/\/+$/, '');
-    const response = await fetch(`${base}/rest/v1/rpc/${name}`, {
-      method:'POST',
-      headers:{
-        apikey:cfg.supabaseAnonKey,
-        Authorization:`Bearer ${cfg.supabaseAnonKey}`,
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify(body)
-    });
-
-    const raw = await response.text();
-    let data = null;
-    if (raw.trim()) {
-      try { data = JSON.parse(raw); } catch (_) { data = raw; }
-    }
-
-    if (!response.ok) {
-      throw new Error(data?.message || data?.hint || 'Não foi possível concluir.');
-    }
-    return data;
-  }
-
-  async function preparePage() {
-    if (!cfg.supabaseUrl || !cfg.supabaseAnonKey) {
-      status('Página ainda não configurada.', 'error');
-      button.disabled = true;
-      return;
-    }
-
-    if (!directMode) {
-      document.getElementById('pageTitle').textContent = 'Preciso de um profissional';
-      document.getElementById('pageSubtitle').textContent =
-        'Publique seu pedido gratuitamente e acompanhe as propostas pelo navegador.';
-      button.textContent = 'Publicar e receber propostas';
-      return;
-    }
-
-    try {
-      const rows = await rpc('orcazap_get_public_professional', { p_slug:slug });
-      if (!Array.isArray(rows) || !rows.length) {
-        throw new Error('Profissional não encontrado ou link desativado.');
-      }
-
-      professional = rows[0];
-      document.getElementById('pageTitle').textContent =
-        `Pedir orçamento para ${professional.display_name}`;
-      const ratingCount = Number(professional.rating_count || 0);
-      const ratingAverage = Number(professional.rating_average || 0);
-      document.getElementById('pageSubtitle').textContent = [
-        professional.profession,
-        professional.city,
-        ratingCount ? `★ ${ratingAverage.toFixed(1)} (${ratingCount})` : ''
-      ].filter(Boolean).join(' • ');
-      profession.value = professional.profession;
-      profession.disabled = true;
-      marketplaceChoice.classList.remove('hidden');
-      button.textContent = 'Enviar pedido';
-    } catch (error) {
-      status(error.message, 'error');
-      button.disabled = true;
-    }
-  }
-
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    button.disabled = true;
-    status('Enviando pedido...');
-
-    const data = {
-      clientName:document.getElementById('clientName').value.trim(),
-      clientPhone:document.getElementById('clientPhone').value.trim(),
-      profession:profession.value.trim(),
-      city:document.getElementById('city').value.trim(),
-      address:document.getElementById('address').value.trim(),
-      postalCode:document.getElementById('postalCode').value.trim(),
-      serviceText:document.getElementById('serviceText').value.trim(),
-      measurements:document.getElementById('measurements').value.trim(),
-      desiredDate:document.getElementById('desiredDate').value.trim(),
-      bestContactTime:document.getElementById('bestContactTime').value.trim(),
-      notes:document.getElementById('notes').value.trim()
-    };
-
-    try {
-      let marketplaceResult = null;
-
-      if (directMode) {
-        await rpc('orcazap_submit_order_request', {
-          p_slug:slug,
-          p_client_name:data.clientName,
-          p_client_phone:data.clientPhone,
-          p_address:data.address,
-          p_city:data.city,
-          p_postal_code:data.postalCode,
-          p_service_text:data.serviceText,
-          p_measurements:data.measurements,
-          p_desired_date:data.desiredDate,
-          p_best_contact_time:data.bestContactTime,
-          p_notes:data.notes
-        });
-
-        if (document.getElementById('marketplaceConsent').checked) {
-          marketplaceResult = await rpc('orcazap_create_marketplace_request', {
-            p_client_name:data.clientName,
-            p_client_phone:data.clientPhone,
-            p_city:data.city,
-            p_profession:data.profession,
-            p_service_text:data.serviceText,
-            p_measurements:data.measurements,
-            p_desired_date:data.desiredDate,
-            p_notes:[
-              data.notes,
-              data.bestContactTime ? `Melhor horário: ${data.bestContactTime}` : '',
-              referralCode ? `Código de origem: ${referralCode}` : ''
-            ].filter(Boolean).join('\n'),
-            p_origin_slug:slug,
-            p_partner_code:partnerCode
-          });
-        }
-      } else {
-        marketplaceResult = await rpc('orcazap_create_marketplace_request', {
-          p_client_name:data.clientName,
-          p_client_phone:data.clientPhone,
-          p_city:data.city,
-          p_profession:data.profession,
-          p_service_text:data.serviceText,
-          p_measurements:data.measurements,
-          p_desired_date:data.desiredDate,
-          p_notes:[
-            data.notes,
-            data.bestContactTime ? `Melhor horário: ${data.bestContactTime}` : '',
-            referralCode ? `Código de origem: ${referralCode}` : ''
-          ].filter(Boolean).join('\n'),
-          p_origin_slug:'',
-          p_partner_code:partnerCode
-        });
-      }
-
-      if (marketplaceResult?.access_token) {
-        const accessToken = String(marketplaceResult.access_token);
-        const recent = JSON.parse(
-          localStorage.getItem('orcazap_recent_requests_v1') || '[]'
-        ).filter(item => item && item.token !== accessToken);
-
-        recent.unshift({
-          token: accessToken,
-          profession: data.profession,
-          city: data.city,
-          serviceText: data.serviceText,
-          createdAt: new Date().toISOString()
-        });
-
-        localStorage.setItem(
-          'orcazap_recent_requests_v1',
-          JSON.stringify(recent.slice(0, 20))
-        );
-
-        const token = encodeURIComponent(accessToken);
-        location.href = `acompanhar.html?t=${token}`;
-        return;
-      }
-
-      form.reset();
-      if (directMode && professional) {
-        profession.value = professional.profession;
-      }
-      status('Pedido enviado com sucesso. O profissional entrará em contato.', 'success');
-    } catch (error) {
-      status(error.message || 'Não foi possível enviar. Tente novamente.', 'error');
-    } finally {
-      button.disabled = false;
-    }
-  });
-
-  preparePage();
-</script>
+<script src="auth.js"></script>
+<script src="smart-triage.js"></script>
+<script src="index.js"></script>
 </body>
 </html>

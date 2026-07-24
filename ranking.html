@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0f766e">
+  <title>Ranking local | OrçaZap</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="app.webmanifest">
+  <link rel="icon" href="icon-192.png">
+  <script src="pwa.js" defer></script>
+</head>
+<body>
+<main>
+  <nav>
+    <a href="index.html">Novo pedido</a>
+    <a href="cliente.html">Minha conta</a>
+    <a href="ajuda.html">Ajuda</a>
+  </nav>
+
+  <header class="hero">
+    <h1>Ranking local</h1>
+    <p>
+      Compare profissionais usando dados verificados da plataforma.
+      Nenhuma posição pode ser comprada.
+    </p>
+  </header>
+
+  <section class="card">
+    <div class="grid">
+      <div>
+        <label for="city">Cidade</label>
+        <input id="city" maxlength="120" placeholder="Ex.: Porto Feliz">
+      </div>
+      <div>
+        <label for="profession">Profissão</label>
+        <select id="profession">
+          <option value="">Todas as profissões</option>
+        </select>
+      </div>
+    </div>
+    <button id="searchButton" type="button">Consultar ranking</button>
+    <p class="small">
+      O índice considera conta protegida, perfil completo, avaliações
+      verificadas, serviços concluídos e tempo de resposta.
+    </p>
+  </section>
+
+  <div id="status" class="status" role="status" aria-live="polite"></div>
+  <section id="results"></section>
+
+  <section class="card info">
+    <strong>Transparência</strong>
+    <p class="small">
+      O ranking é informativo e muda conforme os dados. Ele não representa
+      garantia, certificação técnica ou recomendação exclusiva do OrçaZap.
+    </p>
+  </section>
+</main>
+
+<script src="config.js"></script>
+<script src="auth.js"></script>
+<script src="ranking.js"></script>
+</body>
+</html>

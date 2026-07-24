@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0f766e">
+  <title>Ajuda | OrçaZap</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="app.webmanifest">
+  <link rel="icon" href="icon-192.png">
+  <script src="pwa.js" defer></script>
+</head>
+<body>
+<main>
+  <nav>
+    <a href="index.html">Portal público</a>
+    <a href="status.html">Status</a>
+    <a href="privacidade-conta.html">Meus dados</a>
+  </nav>
+
+  <header class="hero">
+    <h1>Central de Ajuda</h1>
+    <p>
+      Respostas rápidas e chamado protegido para clientes autenticados.
+    </p>
+  </header>
+
+  <div id="status" class="status" role="status" aria-live="polite"></div>
+  <section id="accountArea" class="card"></section>
+
+  <section class="card">
+    <details>
+      <summary><strong>Como escolho um profissional?</strong></summary>
+      <p>
+        Compare proposta, perfil, avaliações verificadas, experiência e
+        conversa. O OrçaZap não escolhe automaticamente por você.
+      </p>
+    </details>
+    <hr>
+    <details>
+      <summary><strong>Meu telefone fica público?</strong></summary>
+      <p>
+        Não. O telefone é liberado ao profissional escolhido. Antes disso,
+        o chat bloqueia tentativas de compartilhar contato.
+      </p>
+    </details>
+    <hr>
+    <details>
+      <summary><strong>Quem vê as fotos?</strong></summary>
+      <p>
+        A conta do cliente e profissionais que enviaram proposta para aquele
+        pedido. As imagens não recebem URL pública permanente.
+      </p>
+    </details>
+    <hr>
+    <details>
+      <summary><strong>O OrçaZap garante a execução?</strong></summary>
+      <p>
+        Não. Cliente e profissional negociam e contratam diretamente.
+        A plataforma ajuda na organização, comparação e formalização.
+      </p>
+    </details>
+    <hr>
+    <details>
+      <summary><strong>OrçaCoins são dinheiro?</strong></summary>
+      <p>
+        Não. São pontos promocionais internos sem promessa de saque,
+        investimento ou rendimento.
+      </p>
+    </details>
+  </section>
+
+  <section id="ticketArea"></section>
+</main>
+
+<script src="config.js"></script>
+<script src="auth.js"></script>
+<script src="ajuda.js"></script>
+</body>
+</html>

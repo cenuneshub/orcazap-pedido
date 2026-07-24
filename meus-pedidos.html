@@ -5,72 +5,34 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0f766e">
   <title>Meus pedidos | OrçaZap</title>
-  <style>
-    :root{font-family:Arial,Helvetica,sans-serif;color:#153431;background:#f4fbfc}
-    *{box-sizing:border-box}
-    body{margin:0;padding:16px}
-    main{max-width:760px;margin:auto}
-    header{padding:22px;border-radius:22px;background:linear-gradient(135deg,#0f766e,#9edfec);color:white}
-    .card{background:white;border:1px solid #d7eaed;border-radius:18px;padding:16px;margin-top:12px}
-    a.button{display:block;text-decoration:none;text-align:center;padding:13px;border-radius:12px;background:#0f766e;color:white;font-weight:900;margin-top:12px}
-    button{width:100%;padding:12px;border:1px solid #0f766e;border-radius:12px;background:white;color:#0f766e;font:inherit;font-weight:900;margin-top:12px}
-    .small{font-size:13px;opacity:.8;line-height:1.45}
-    nav{display:flex;justify-content:space-between;margin-bottom:10px}
-    nav a{color:#0f766e;font-weight:800;text-decoration:none}
-  </style>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="app.webmanifest">
+  <link rel="icon" href="icon-192.png">
+  <script src="pwa.js" defer></script>
 </head>
 <body>
 <main>
   <nav>
     <a href="index.html">Novo pedido</a>
-    <a href="javascript:location.reload()">Atualizar</a>
+    <a href="cliente.html">Minha conta</a>
+    <a href="ajuda.html">Ajuda</a>
+    <a href="privacidade-conta.html">Meus dados</a>
   </nav>
-  <header>
-    <h1 style="margin-top:0">Meus pedidos</h1>
-    <p>Pedidos salvos neste navegador. Não é necessário criar conta nesta fase.</p>
+
+  <header class="hero">
+    <h1>Pedidos deste navegador</h1>
+    <p>
+      A conta OrçaZap mantém os pedidos entre aparelhos. Esta lista local
+      funciona como contingência no navegador atual.
+    </p>
   </header>
+
+  <section id="accountArea" class="card"></section>
   <section id="list"></section>
 </main>
-<script>
-  const listEl=document.getElementById('list');
-  const items=JSON.parse(localStorage.getItem('orcazap_recent_requests_v1')||'[]')
-    .filter(item=>item&&item.token);
 
-  function esc(value){
-    return String(value||'')
-      .replaceAll('&','&amp;').replaceAll('<','&lt;')
-      .replaceAll('>','&gt;').replaceAll('"','&quot;')
-      .replaceAll("'","&#039;");
-  }
-
-  function dateLabel(value){
-    const date=new Date(value||Date.now());
-    return date.toLocaleString('pt-BR');
-  }
-
-  function removeToken(token){
-    const next=items.filter(item=>item.token!==token);
-    localStorage.setItem('orcazap_recent_requests_v1',JSON.stringify(next));
-    location.reload();
-  }
-
-  if(!items.length){
-    listEl.innerHTML=`
-      <div class="card">
-        <h2>Nenhum pedido salvo</h2>
-        <p>Quando você publicar um pedido neste navegador, ele ficará disponível aqui.</p>
-        <a class="button" href="index.html">Publicar pedido</a>
-      </div>`;
-  }else{
-    listEl.innerHTML=items.map(item=>`
-      <article class="card">
-        <h2>${esc(item.profession||'Pedido OrçaZap')}</h2>
-        <p>${esc(item.serviceText||'Acompanhar propostas e andamento.')}</p>
-        <p class="small">${esc(item.city||'')} ${item.createdAt?'• '+esc(dateLabel(item.createdAt)):''}</p>
-        <a class="button" href="acompanhar.html?t=${encodeURIComponent(item.token)}">Acompanhar pedido</a>
-        <button onclick="removeToken('${esc(item.token)}')">Remover deste navegador</button>
-      </article>`).join('');
-  }
-</script>
+<script src="config.js"></script>
+<script src="auth.js"></script>
+<script src="meus-pedidos.js"></script>
 </body>
 </html>
